@@ -11,6 +11,10 @@ import PrivateRoute from "../utils/PrivateRoute";
 import AddJob from "../pages/employeeDashboard/AddJob";
 import EmployerDashboard from "../pages/employeeDashboard/EmployerDashboard";
 import CandidateDashboard from "../pages/candidateDashboard/CandidateDashboard";
+import JobDetailsInfo from "../pages/JobDetailsInfo";
+import AppliedJobs from "../pages/candidateDashboard/AppliedJobs";
+
+
 
 const routes = createBrowserRouter([
   {
@@ -27,7 +31,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "/job-details/:id",
-        element: <JobDetails />,
+        element: <JobDetails></JobDetails>
       },
       {
         path: "/login",
@@ -75,8 +79,19 @@ const routes = createBrowserRouter([
         path: "candidate",
         element: <CandidateDashboard />,
       },
+      {
+        path: "apply-job",
+        element: <AppliedJobs />
+      }
+
     ],
   },
+
+  {
+    path: '/detais/:id',
+    element: <JobDetailsInfo></JobDetailsInfo>
+
+  }
 ]);
 
 export default routes;

@@ -1,9 +1,16 @@
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FiTrash } from "react-icons/fi";
+import { useJobcollectionMutation } from "../../features/api/apiSlice";
 
 const AddJob = () => {
-  const { handleSubmit, register, control } = useForm();
+  const { handleSubmit, register, control, reset } = useForm();
+
+  const [jobPost, { isSuccess, error }] = useJobcollectionMutation();
+
+  console.log(isSuccess);
+  console.log(error);
+
   const {
     fields: resFields,
     append: resAppend,
@@ -22,6 +29,10 @@ const AddJob = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    jobPost({ ...data, applicants: [], queries: [] });
+    reset();
+
+
   };
 
   return (
@@ -44,7 +55,6 @@ const AddJob = () => {
             Company Name
           </label>
           <input
-            disabled
             className='cursor-not-allowed'
             type='text'
             id='companyName'

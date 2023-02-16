@@ -1,15 +1,54 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import loginImage from "../assets/login.svg";
+import { googleSingIn, loginUser } from "../features/auth/authSlice";
+
+
 const Login = () => {
+
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+  const { user: { email }, isLoading, error } = useSelector((state) => state.auth);
+
   const onSubmit = (data) => {
     console.log(data);
+    dispatch(loginUser({ email: data.email, password: data.password }));
+    reset();
   };
+
+  const handleGoogleSing = () => {
+
+    dispatch(googleSingIn());
+
+
+  }
+
+
+
+
+  useEffect(() => {
+
+    if (!isLoading && email) {
+      navigate('/');
+    }
+  }, [isLoading, email, navigate])
+
+  useEffect(() => {
+
+    if (!isLoading) {
+      toast.error(error);
+    }
+
+
+  }, [isLoading, error]);
+
+
+
 
   return (
     <div className='flex h-screen items-center'>
@@ -55,6 +94,16 @@ const Login = () => {
                     Sign up
                   </span>
                 </p>
+              </div>
+
+              <div className='relative !mt-8'>
+                <button
+                  onClick={() => handleGoogleSing()}
+                  type='button'
+                  className='font-bold text-white py-3 rounded-full bg-primary w-full'
+                >
+                  SingIn-With-Google
+                </button>
               </div>
             </div>
           </form>

@@ -2,13 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";
+import { useRegisterMutation } from "../../features/api/apiSlice";
 
 const EmployerRegistration = () => {
   const [countries, setCountries] = useState([]);
 
-  const { handleSubmit, register, control } = useForm();
+  const { handleSubmit, register, control, reset } = useForm();
   const term = useWatch({ control, name: "term" });
   const navigate = useNavigate();
+
+  const [EmplioyerPost, { isSuccess }] = useRegisterMutation();
+
+
+  console.log(isSuccess);
+
 
   const businessCategory = [
     "Automotive",
@@ -31,6 +38,8 @@ const EmployerRegistration = () => {
     "Travel & Transportation",
   ];
 
+  console.log(countries);
+
   const employeeRange = ["1 - 10", "11 - 50", "51 - 100", "Above 100"];
 
   useEffect(() => {
@@ -41,6 +50,9 @@ const EmployerRegistration = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    EmplioyerPost({ ...data, role: 'employer' });
+    reset();
+
   };
 
   return (
@@ -74,7 +86,7 @@ const EmployerRegistration = () => {
             <label className='mb-2' htmlFor='email'>
               Email
             </label>
-            <input type='email' id='email' disabled {...register("email")} />
+            <input type='email' id='email'  {...register("email")} />
           </div>
           <div className='flex flex-col w-full max-w-xs'>
             <h1 className='mb-3'>Gender</h1>
